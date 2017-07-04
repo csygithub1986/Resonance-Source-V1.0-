@@ -1,0 +1,25 @@
+﻿<Page x:Class="Resonance.WlanPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800" Loaded="Page_Loaded"
+	  Title="WlanPage">
+
+    <Grid>
+
+        <Grid Height="150">
+            <Grid VerticalAlignment="Top" HorizontalAlignment="Center">
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="20,0,0,0" Name="cbIP" VerticalAlignment="Top" Width="140" />
+                <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0"  Text="IP" VerticalAlignment="Center" />
+            </Grid>
+
+            <Button Click="btnConnect_Click" Content="连接设备" Height="23" Name="btnConnect" Width="75" VerticalAlignment="Top" Margin="0,80,0,0" />
+            <TextBlock Height="23" Name="textBlock1" Text="无法连接振荡波设备，请检查设备后重试" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,50,0,0" Foreground="#FFF20000" />
+        </Grid>
+        <Label Background="White" Content="等待连接........." FontSize="24" Name="labelConnect" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+
+
+
+    </Grid>
+</Page>

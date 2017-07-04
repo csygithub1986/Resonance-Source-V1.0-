@@ -1,0 +1,247 @@
+﻿<Page x:Class="Resonance.OverviewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1132" Initialized="Page_Initialized"
+      Title="OverviewPage" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="84" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TabControl  Name="tabControl" Grid.Column="0" Grid.RowSpan="2"  Width="84"  TabStripPlacement="Left" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem Header="相线1" Name="tabItem1" Width="80" Height="30" Controls:ControlsHelper.HeaderFontSize="16">
+            </TabItem>
+            <TabItem Header="相线2" Name="tabItem2" Width="80" Height="30" Controls:ControlsHelper.HeaderFontSize="16">
+            </TabItem>
+            <TabItem Header="相线3" Name="tabItem3" Width="80" Height="30" Controls:ControlsHelper.HeaderFontSize="16">
+            </TabItem>
+        </TabControl>
+
+        <Grid Grid.Column="1" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="测试信息" Grid.ColumnSpan="2">
+                <RichTextBox Name="richText1" IsReadOnly="True" />
+            </GroupBox>
+            
+            <GroupBox Header="接头" Grid.Column="2">
+                <ListView ItemsSource="{Binding}"   Name="listViewJoint"  SelectionMode="Single">
+                    <ListView.Resources>
+                        <Style  TargetType="{x:Type ListViewItem}">
+                            <Setter Property="Height" Value="25"></Setter>
+                        </Style>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="Height" Value="20"/>
+                        </Style>
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView>
+                            <!--<GridViewColumn Header="类型" DisplayMemberBinding="{Binding JointPosition}" Width="100"/>-->
+                            <GridViewColumn Header="接头位置(米)" DisplayMemberBinding="{Binding Position}" Width="150"/>
+                            <GridViewColumn Header="电缆长度(米)" DisplayMemberBinding="{Binding Length}" Width="150"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+
+        </Grid>
+
+        <GroupBox Header="测试结果"  Grid.Row="1" Grid.Column="1" Margin="5">
+            <Grid>
+                <Grid Name="grid1" Panel.ZIndex="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <!--<ColumnDefinition Width="*" />-->
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="1" Margin="6" BorderBrush="Black" BorderThickness="1">
+                        <d3:ChartPlotter Name="plotterVol1"  Margin="0,5,5,0">
+                            <d3:ChartPlotter.HorizontalAxis>
+                                <d3:HorizontalIntegerAxis/>
+                            </d3:ChartPlotter.HorizontalAxis>
+                            <d3:VerticalAxisTitle Content="电压(V/U0)" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <d3:HorizontalAxisTitle Content="次数" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </d3:ChartPlotter>
+                    </Border>
+                    <Border  Grid.Row="1" Margin="6"  Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+                        <d3:ChartPlotter Name="plotterQ1"  Margin="0,5,5,0">
+                            <d3:LineGraph Name="lineGraphQ1"  DataContext="{Binding}" FlowDirection="LeftToRight">
+                            </d3:LineGraph>
+                            <d3:VerticalAxisTitle Content="放电幅值 (mV)" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <d3:HorizontalAxisTitle Content="电压(V/U0)" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </d3:ChartPlotter>
+                    </Border>
+                    <!--<Border  Grid.Row="1" Margin="6" Grid.Column="2" BorderBrush="Black" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Margin="10,10,5,5" Background="#EEEEEE" CornerRadius="5">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="谐振频率：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtF1" Text="0 Hz" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1" Margin="5,10,10,5" CornerRadius="5" Background="#EEEEEE">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="电缆电容：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtCap1" Text="0 uF" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Row="1" Margin="10,5,5,10" CornerRadius="5" Background="#EEEEEE">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="衰减指数：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtTamp1" Text="0" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1" Grid.Row="1" Margin="5,5,10,10"  Background="#EEEEEE" CornerRadius="5">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="介电损耗：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtTan1" Text="0" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>-->
+                </Grid>
+
+                <Grid Name="grid2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <!--<ColumnDefinition Width="*" />-->
+                    </Grid.ColumnDefinitions>
+                    <Border  Grid.Row="1" Margin="6" BorderBrush="Black" BorderThickness="1">
+                        <d3:ChartPlotter Name="plotterVol2" Margin="0,5,5,0">
+                            <d3:ChartPlotter.HorizontalAxis>
+                                <d3:HorizontalIntegerAxis/>
+                            </d3:ChartPlotter.HorizontalAxis>
+                            <d3:VerticalAxisTitle Content="电压(V/U0)" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <d3:HorizontalAxisTitle Content="次数" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </d3:ChartPlotter>
+                    </Border>
+                    <Border  Grid.Row="1" Margin="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+                        <d3:ChartPlotter Name="plotterQ2" Margin="0,5,5,0">
+                            <d3:LineGraph Name="lineGraphQ2"  DataContext="{Binding}" FlowDirection="LeftToRight">
+                            </d3:LineGraph>
+                            <d3:VerticalAxisTitle Content="放电幅值 (mV)" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <d3:HorizontalAxisTitle Content="电压(V/U0)" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </d3:ChartPlotter>
+                    </Border>
+                    <!--<Border  Grid.Row="1" Margin="6" Grid.Column="2" BorderBrush="Black" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Margin="10,10,5,5" Background="#EEEEEE" CornerRadius="5">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="谐振频率：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtF2" Text="0 Hz" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1" Margin="5,10,10,5" CornerRadius="5" Background="#EEEEEE">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="电缆电容：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtCap2" Text="0 uF" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Row="1" Margin="10,5,5,10" CornerRadius="5" Background="#EEEEEE">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="衰减指数：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtTamp2" Text="0" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1" Grid.Row="1" Margin="5,5,10,10"  Background="#EEEEEE" CornerRadius="5">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="介电损耗：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtTan2" Text="0" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>-->
+                </Grid>
+
+                <Grid Name="grid3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <!--<ColumnDefinition Width="*" />-->
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Row="1" Margin="6" BorderBrush="Black" BorderThickness="1">
+                        <d3:ChartPlotter Name="plotterVol3" Margin="0,5,5,0">
+                            <d3:ChartPlotter.HorizontalAxis>
+                                <d3:HorizontalIntegerAxis/>
+                            </d3:ChartPlotter.HorizontalAxis>
+                            <d3:VerticalAxisTitle Content="电压(V/U0)" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <d3:HorizontalAxisTitle Content="次数" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </d3:ChartPlotter>
+                    </Border>
+                    <Border  Grid.Row="1" Margin="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+                        <d3:ChartPlotter Name="plotterQ3" Margin="0,5,5,0">
+                            <d3:LineGraph Name="lineGraphQ3"  DataContext="{Binding}" FlowDirection="LeftToRight" StrokeThickness="3">
+                            </d3:LineGraph>
+                            <d3:VerticalAxisTitle Content="放电幅值 (mV)" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <d3:HorizontalAxisTitle Content="电压(V/U0)" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </d3:ChartPlotter>
+                    </Border>
+                    <!--<Border  Grid.Row="1" Margin="6" Grid.Column="2" BorderBrush="Black" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Margin="10,10,5,5" Background="#EEEEEE" CornerRadius="5">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="谐振频率：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtF3" Text="0 Hz" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1" Margin="5,10,10,5" CornerRadius="5" Background="#EEEEEE">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="电缆电容：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtCap3" Text="0 uF" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Row="1" Margin="10,5,5,10" CornerRadius="5" Background="#EEEEEE">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="衰减指数：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtTamp3" Text="0" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1" Grid.Row="1" Margin="5,5,10,10"  Background="#EEEEEE" CornerRadius="5">
+                                <Grid>
+                                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Text="介电损耗：" VerticalAlignment="Top" />
+                                    <TextBlock HorizontalAlignment="Center" Name="txtTan3" Text="0" VerticalAlignment="Center" FontSize="24" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>-->
+                </Grid>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Page>

@@ -1,0 +1,79 @@
+﻿<Page x:Class="Resonance.MapPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" d:DesignHeight="640" d:DesignWidth="1112"
+	  Title="MapPage" Initialized="Page_Initialized">
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="1" />
+        </Grid.RowDefinitions>
+
+        <Border Margin="5" Grid.Row="0">
+            <d3:ChartPlotter Name="plotterMapAll">
+                <d3:MarkerPointsGraph Name="mapJoint"></d3:MarkerPointsGraph>
+                <d3:VerticalAxisTitle Content="放电量（pc）" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <d3:HorizontalAxisTitle Content="距离 (m)" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            </d3:ChartPlotter>
+        </Border>
+        <Label Name="lableTishi" Grid.Row="1" Content="正在分析，请稍后......" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="Red" FontWeight="Bold" FontSize="56" Visibility="Collapsed"></Label>
+        
+        <Controls:ToggleSwitchButton Checked="switchBoundary_Checked" Unchecked="switchBoundary_Unchecked"  Name="switchBoundary" Grid.Row="1" Grid.Column="1" Width="70" Height="28" Margin="28,29,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></Controls:ToggleSwitchButton>
+        <TextBlock Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="33,17,0,0" Name="textBlock1" Text="定位边界" VerticalAlignment="Top" />
+        <Controls:ToggleSwitchButton Checked="switchAtten_Checked" Unchecked="switchAtten_Unchecked" Name="switchAtten" Height="28" HorizontalAlignment="Left" Margin="139,29,0,0" VerticalAlignment="Top" Width="70" Grid.Column="1" Grid.Row="1" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="148,16,0,0" Name="textBlock2" Text="衰减曲线" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
+        <!--<Controls:ToggleSwitchButton Checked="switchCalib_Checked" Unchecked="switchCalib_Unchecked" Name="switchCalib" Height="28" HorizontalAlignment="Left" Margin="11,74,0,0" VerticalAlignment="Top" Width="70" Grid.Column="1" Grid.Row="1" />-->
+        <!--<TextBlock Height="23" HorizontalAlignment="Left" Margin="16,61,0,0" Name="textBlock3" Text="校验脉冲" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />-->
+        <Button Content="&lt;&lt;" Height="23" HorizontalAlignment="Left" Margin="28,95,0,0" Name="btnBackward" VerticalAlignment="Top" Width="75" Click="BtnBackward" IsEnabled="False" Grid.Column="1" Grid.Row="1" />
+        <Button Content=">>" Height="23" HorizontalAlignment="Left" Margin="134,95,0,0" Name="btnForward" VerticalAlignment="Top" Width="75" Click="BtnForward" IsEnabled="False" Grid.Column="1" Grid.Row="1" />
+        <Button Content="删除" Style="{DynamicResource AccentedSquareButtonStyle}" Height="28" HorizontalAlignment="Left" Margin="28,163,0,0" Name="btnDeletePair" VerticalAlignment="Top" Width="75" Click="BtnDeletePair_Click" Grid.Column="1" Grid.Row="1" FontSize="12" FontFamily="Microsoft YaHei" />
+
+
+        <d3:ChartPlotter Name="plotterLoc"  Grid.Row="1" Margin="5">
+            <d3:LineGraph Name="lineGraphLoc">
+                <d3:LineGraph.LinePen>
+                    <Pen Brush="Green"/>
+                </d3:LineGraph.LinePen>
+            </d3:LineGraph>
+
+            <d3:LineGraph Name="lineGraphAtten" Visibility="Hidden">
+                <d3:LineGraph.LinePen>
+                    <Pen Brush="Purple">
+                        <Pen.DashStyle>
+                            <DashStyle Dashes="2,2"/>
+                        </Pen.DashStyle>
+                    </Pen>
+                </d3:LineGraph.LinePen>
+            </d3:LineGraph>
+
+            <d3:LineGraph Name="lineGraphCalib" Visibility="Hidden">
+                <d3:LineGraph.LinePen>
+                    <Pen Brush="Gray"/>
+                </d3:LineGraph.LinePen>
+            </d3:LineGraph>
+
+            <d3:VerticalAxisTitle Content="放电幅值 (mV)" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <d3:HorizontalAxisTitle Content="时间 (ms)" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+        </d3:ChartPlotter>
+        <TextBlock Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="13,102,0,0" Name="textBlock5" Text="最高电压" VerticalAlignment="Top" />
+        <Canvas Grid.Column="1" Height="50" HorizontalAlignment="Left" Margin="13,33,0,0" Name="canvas1" VerticalAlignment="Top" Width="225" Background="Gainsboro">
+            <CheckBox Content="A相" Name="checkBoxA" IsChecked="True" Click="CheckBox_Click" Canvas.Left="15" Canvas.Top="18" />
+            <CheckBox Content="B相" Name="checkBoxB" IsChecked="True" Click="CheckBox_Click" Canvas.Left="90" Canvas.Top="18" />
+            <CheckBox Content="C相" Name="checkBoxC" IsChecked="True" Click="CheckBox_Click" Canvas.Left="166" Canvas.Top="18" />
+        </Canvas>
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="13,12,0,0" Name="textBlock6" Text="相序" VerticalAlignment="Top" Grid.Column="1" />
+        <ListBox Name="lbMaxVoltage"  HorizontalAlignment="Stretch" Margin="16,123,16,20" VerticalAlignment="Stretch"  Grid.Column="1" VerticalContentAlignment="Center" SelectionMode="Multiple"  />
+    
+    
+    </Grid>
+</Page>

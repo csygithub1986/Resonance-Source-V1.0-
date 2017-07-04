@@ -1,0 +1,172 @@
+﻿<Page x:Class="Resonance.MeasurePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+	  mc:Ignorable="d"  d:DesignHeight="650" d:DesignWidth="1200" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="424*" />
+            <RowDefinition Height="26" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="732*" />
+                <ColumnDefinition Width="158*" />
+            </Grid.ColumnDefinitions>
+
+            <Menu Grid.ColumnSpan="3" Name="menuWhole" Background="WhiteSmoke" FontSize="12">
+                <MenuItem Header="文件" Background="Transparent">
+                    <MenuItem Header="退出" Padding="2,4" Click="menuExit_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="定位" Background="Transparent">
+                    <MenuItem Header="定位分析" Padding="2,4" Click="menuLocate_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="帮助" Background="Transparent">
+                    <MenuItem Header="使用手册" Padding="2,4" Click="menuHelp_Click"></MenuItem>
+                </MenuItem>
+            </Menu>
+
+            <Label Name="txtPhaseInfo" Grid.Row="1" Content="测试数据 A相" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" Height="30" FontSize="16" FontWeight="Bold"></Label>
+            <ListBox Name="lbFile" BorderThickness="1" Grid.Row="1" Margin="0,30,0,0">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="删除" Click="MenuFile_Del"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+
+            <Grid Grid.Column="1" Name="gridDisplay" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="700*" />
+                    <ColumnDefinition Width="32" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="8*" />
+                </Grid.RowDefinitions>
+                <!--高压波形-->
+                <TextBlock Text="    高压（kV）" TextWrapping="NoWrap"  HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="0,48">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="270"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+                <d3:ChartPlotter Name="chartPlotter1" Margin="35,0,0,0" >
+                    <d3:LineGraph Name="lineGraph1"  DataContext="{Binding}" FlowDirection="LeftToRight">
+                        <d3:LineGraph.LinePen>
+                            <!--<Pen Brush="#FF0c86e4"/>-->
+                            <Pen Brush="#FFE46C0A"/>
+                        </d3:LineGraph.LinePen>
+                        <d3:LineGraph.Description>
+                            <d3:PenDescription DescriptionString="高压"></d3:PenDescription>
+                        </d3:LineGraph.Description>
+                    </d3:LineGraph>
+
+                    <d3:ChartPlotter.VerticalAxis>
+                        <d3:VerticalAxis Name="hvVerticalAxis" SizeChanged="HVAxis_SizeChanged"/>
+                    </d3:ChartPlotter.VerticalAxis>
+                </d3:ChartPlotter>
+
+                <!--局部放电波形-->
+                <TextBlock  Text="   局放（mV）" Grid.Row="2" TextWrapping="NoWrap"  HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="0,61">
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="270"/>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
+                <d3:ChartPlotter Name="chartPlotter2"  Grid.Row="1" Margin="35,0,0,0">
+                    <!--<d3:VerticalAxisTitle Content="PD电压 (mV)"/>-->
+                    <d3:HorizontalAxisTitle Content="时间 (ms)" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsTabStop="False" />
+
+                    <d3:LineGraph Name="lineGraph2"   DataContext="{Binding}" FlowDirection="LeftToRight" >
+                        <d3:LineGraph.LinePen>
+                            <Pen Brush="#FFc50be1"/>
+                        </d3:LineGraph.LinePen>
+                        <d3:LineGraph.Description>
+                            <d3:PenDescription DescriptionString="局放"></d3:PenDescription>
+                        </d3:LineGraph.Description>
+                    </d3:LineGraph>
+                    <d3:ChartPlotter.VerticalAxis>
+                        <d3:VerticalAxis Name="pdVerticalAxis" SizeChanged="PdAxis_SizeChanged"/>
+                    </d3:ChartPlotter.VerticalAxis>
+                </d3:ChartPlotter>
+                <ListBox Grid.Column="1"  Name="lbPeriod" Grid.RowSpan="2" BorderThickness="1" />
+            </Grid>
+
+            <StackPanel Grid.Column="2" Grid.Row="1">
+                <TextBlock Text="属性" Background="Gray" FontSize="14" Padding="3" Foreground="White"></TextBlock>
+                <Grid Margin="3">
+                    <TextBlock Text="相序" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <Label Name="txtPhase" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1"  Content=""  HorizontalAlignment="Right"></Label>
+                </Grid>
+                <Grid Margin="3">
+                    <TextBlock Text="高压幅值" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <Label Name="txtHvVol" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+                </Grid>
+                <Grid Margin="3">
+                    <TextBlock Text="振荡频率" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <Label Name="txtFre" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+                </Grid>
+                <Grid Margin="3">
+                    <TextBlock Text="电缆电容" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <Label Name="txtCap" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+                </Grid>
+                <Grid Margin="3">
+                    <TextBlock Text="放电最大幅值" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <Label Name="txtMaxPd" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+                </Grid>
+                <Grid Margin="3">
+                    <TextBlock Text="测试时间" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <Label Name="txtTestDate" FontSize="16" Width="100" Foreground="White" HorizontalContentAlignment="Center" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+                </Grid>
+            </StackPanel>
+
+        </Grid>
+
+        <Rectangle  Grid.Row="1" Fill="#FF007637"></Rectangle>
+        <ProgressBar Grid.Row="1" Visibility="Hidden" Name="progressBar" Background="#FFF76F6F" Foreground="#FF0BA63D" Orientation="Horizontal" Height="Auto" />
+        <Label  Grid.Row="1" Name="textPrompt"  Content="欢迎使用" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" />
+
+        <Grid Grid.Row="2" Background="Gray">
+            <!--<Button Content="连接" Height="59" HorizontalAlignment="Left" Margin="24,21,0,0" Name="btnConnect" VerticalAlignment="Top" Width="35" Click="btnConnect_Click" />-->
+
+            <Button Content="开机" IsEnabled="True" x:Name="btnOpen" Click="btnOpen_Click"  HorizontalAlignment="Left" Margin="16,19,0,0" VerticalAlignment="Top" Width="75" Height="65"/>
+            <Button Content="关机" IsEnabled="False" x:Name="btnClose" Click="btnClose_Click"  HorizontalAlignment="Left" Margin="105,19,0,0" VerticalAlignment="Top" Width="75" Height="65"/>
+
+            <Button Content="谐振扫描" Height="40" HorizontalAlignment="Left" Margin="233,31,0,0" Name="btnSweep" VerticalAlignment="Top" Width="86" Click="btnSweep_Click" />
+            <Grid Margin="375,0,103,0" Name="gridCtr">
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="14,16,0,0" Text="加压等级" VerticalAlignment="Top" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="68,11,0,0" Name="cbVoltage" VerticalAlignment="Top" Width="83" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="14,56,0,0" Text="量程" VerticalAlignment="Top" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="68,51,0,0" Name="cbRange" VerticalAlignment="Top" Width="83" />
+                <Button Content="测试" Height="58" HorizontalAlignment="Left" Margin="177,19,0,0" Name="btnMeasure" VerticalAlignment="Top" Width="75" Click="btnMeasure_Click" />
+                <Button Content="加入自动列表" Height="30" HorizontalAlignment="Left" Margin="320,54,0,0" Name="btnAddinAuto" VerticalAlignment="Top" Width="101" Click="btnAddinAuto_Click" />
+                <Button Content="自动测试" Height="31" HorizontalAlignment="Left" Margin="585,53,0,0" Name="btnAutoMeasure" VerticalAlignment="Top" Width="93" Click="btnAutoMeasure_Click" />
+                <ScrollViewer BorderBrush="White" BorderThickness="1" Height="42" HorizontalAlignment="Left" Margin="321,6,0,0" VerticalAlignment="Top" Width="357"  Name="scrollViewer1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" >
+                    <StackPanel Background="White" Name="autoPanel"  Orientation="Horizontal">
+                        <StackPanel.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="删除" Click="Menu_Del"/>
+                            </ContextMenu>
+                        </StackPanel.ContextMenu>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+            <Button Content="返回" Height="61" HorizontalAlignment="Left" Margin="1111,16,0,0" Name="btnBack" VerticalAlignment="Top" Width="75" Click="btnBack_Click" />
+        </Grid>
+
+        <!--信息-->
+
+
+    </Grid>
+
+</Page>

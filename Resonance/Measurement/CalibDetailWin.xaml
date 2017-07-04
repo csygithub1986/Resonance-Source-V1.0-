@@ -1,0 +1,84 @@
+﻿<Window x:Class="Resonance.CalibDetailWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+        Loaded="Window_Loaded" Unloaded="Window_Unloaded"
+        Title="标定波形" Height="540" Width="1000" Icon="/Resonance;component/Images/icon32.ico">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="180" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <d3:ChartPlotter Name="plotterAll">
+                <d3:LineGraph Name="lineGraphAll" Stroke="Brown"></d3:LineGraph>
+                <d3:VerticalAxisTitle Content="幅值/mV"></d3:VerticalAxisTitle>
+            </d3:ChartPlotter>
+
+            <d3:ChartPlotter Name="plotterDetail" Grid.Row="1">
+                <d3:LineGraph Name="lineGraphDetail" Stroke="#FF0067A7"></d3:LineGraph>
+                <d3:LineGraph Name="lineGraphCali">
+                    <d3:LineGraph.LinePen>
+                        <Pen Brush="Purple">
+                            <Pen.DashStyle>
+                                <DashStyle Dashes="2,2"/>
+                            </Pen.DashStyle>
+                        </Pen>
+                    </d3:LineGraph.LinePen>
+                </d3:LineGraph>
+                <d3:VerticalAxisTitle Content="幅值/mV"></d3:VerticalAxisTitle>
+            </d3:ChartPlotter>
+        </Grid>
+
+        <Grid Grid.Column="1" Name="gridControl">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <ComboBox  Height="23" HorizontalAlignment="Left" Margin="54,23,0,0" Name="cbScale" VerticalAlignment="Top" Width="106" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="14,26,0,0"  Text="量程" VerticalAlignment="Top" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="14,69,0,0"  Text="标定量" VerticalAlignment="Top"  />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="54,66,0,0" Name="cbDischarge" VerticalAlignment="Top" Width="106"  />
+                <Button Content="标定"  Height="23" HorizontalAlignment="Left" Margin="54,124,0,0" Name="btnCalib" VerticalAlignment="Top" Width="75" Click="btnCalib_Click" />
+                <Button Content="噪声采集" Height="23" HorizontalAlignment="Left" Margin="54,174,0,0" Name="btnNoise" VerticalAlignment="Top" Width="75" Click="btnNoise_Click" />
+            </Grid>
+
+            <Grid Grid.Row="1" Name="gridAnalyse">
+                <Border Margin="5,147,5,0"  BorderBrush="Silver" BorderThickness="1" HorizontalAlignment="Stretch"  Name="border1" VerticalAlignment="Top">
+                    <StackPanel >
+                        <Label FontSize="14" Name="txtAmplitude" VerticalAlignment="Center" Padding="3" />
+                        <Label FontSize="14" Name="txtVelocity" VerticalAlignment="Center" Padding="3" />
+                        <Label FontSize="14" Name="txtAttenuation"  VerticalAlignment="Center" Padding="3" />
+                    </StackPanel>
+                </Border>
+
+                <Button Content="&lt;&lt;" IsEnabled="False"  Height="23" HorizontalAlignment="Left" Margin="11,55,0,0" Name="btnUp" VerticalAlignment="Top" Width="75" Click="btnUp_Click" />
+                <Button Content=">>" IsEnabled="False"  Height="23" HorizontalAlignment="Left" Margin="96,55,0,0" Name="btnDown" VerticalAlignment="Top" Width="75" Click="btnDown_Click" />
+                <Button Content="分析"  Height="23" HorizontalAlignment="Left" Margin="54,18,0,0" Name="btnAnalyse" VerticalAlignment="Top" Width="75" Click="btnAnalyse_Click"/>
+                <Button Content="参数设置" Height="23" HorizontalAlignment="Left" Margin="14,105,0,0" Name="btnSet" VerticalAlignment="Top" Width="75"  Click="btnSet_Click" />
+                <CheckBox Checked="checkBoxManual_Checked" Unchecked="checkBoxManual_Unchecked" Content="手动调整" HorizontalAlignment="Left" Margin="96,107,0,0" Name="checkBoxManual" VerticalAlignment="Top" />
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Button IsEnabled="True" Content="确定" Height="23" HorizontalAlignment="Left" Margin="639,8,0,0" Name="btnOk" VerticalAlignment="Top" Width="75" Click="btnOk_Click"  />
+            <Button Content="取消" Height="23" HorizontalAlignment="Left" Margin="195,8,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" Click="btnCancel_Click"  />
+        </Grid>
+        <TextBlock Name="hint" Visibility="Collapsed" Text="正在标定，请稍后......" FontSize="48" Foreground="Black" Grid.ColumnSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+    </Grid>
+</Window>
