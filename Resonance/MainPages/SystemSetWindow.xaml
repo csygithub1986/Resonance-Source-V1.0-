@@ -1,0 +1,24 @@
+﻿<Window x:Class="Resonance.SystemSetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Background="#F0F0F0"
+        Title="系统参数设置" Height="400" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <Grid>
+
+            </Grid>
+        </ScrollViewer>
+        <Grid Grid.Row="1">
+            <Rectangle Stroke="#A0A0A0" StrokeThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+            <Button Content="确定" HorizontalAlignment="Right" Margin="0,0,150,0" VerticalAlignment="Center" Width="90" Height="30"/>
+            <Button Content="取消" HorizontalAlignment="Right" Margin="0,0,30,0" VerticalAlignment="Center" Width="90"  Height="30"/>
+        </Grid>
+    </Grid>
+</Window>

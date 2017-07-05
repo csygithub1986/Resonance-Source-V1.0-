@@ -170,6 +170,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Analyse\Data\CableInfo.cs" />
+    <Compile Include="MainPages\SystemSetWindow.xaml.cs">
+      <DependentUpon>SystemSetWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Measurement\CalibDetailWin.xaml.cs">
       <DependentUpon>CalibDetailWin.xaml</DependentUpon>
     </Compile>
@@ -260,6 +263,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MainPages\SystemSetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Measurement\CableInfoWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

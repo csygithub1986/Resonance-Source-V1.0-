@@ -50,7 +50,7 @@ namespace Resonance
         /// 三相的谐振频率
         /// </summary>
         public float[] Freqs { get; set; }
-  
+
         /// <summary>
         /// 根据额定电压U0，算出相电压最大值
         /// </summary>
@@ -58,7 +58,8 @@ namespace Resonance
         {
             get
             {
-                return U0 / Math.Sqrt(3) * Math.Sqrt(2);
+                //2017-7更改，不除以根号3
+                return U0 * Math.Sqrt(2);
             }
         }
 

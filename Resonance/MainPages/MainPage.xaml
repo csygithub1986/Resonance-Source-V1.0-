@@ -12,8 +12,9 @@
         <Label Content="欢迎" HorizontalAlignment="Left" Margin="48,30,0,0" Name="label1" VerticalAlignment="Top" FontSize="32" />
         <Label Content="请选择下列操作：" HorizontalAlignment="Left" Margin="48,128,0,0" Name="label2" VerticalAlignment="Top" FontSize="16" />
 
-        <Button Content="测量" Height="50" HorizontalAlignment="Left" Margin="218,285,0,0" Name="btnSetting" VerticalAlignment="Top" Width="120" FontSize="14" Click="btnSetting_Click" />
-        <Button Content="分析" Height="50" HorizontalAlignment="Left" Margin="795,285,0,0" Name="btnResult" VerticalAlignment="Top" Width="120" FontSize="14" Click="btnResult_Click" />
+        <Button Content="测量" Height="50" HorizontalAlignment="Left" Margin="207,228,0,0" Name="btnSetting" VerticalAlignment="Top" Width="120" FontSize="14" Click="btnSetting_Click" />
+        <Button Content="分析" Height="50" HorizontalAlignment="Left" Margin="207,358,0,0" Name="btnResult" VerticalAlignment="Top" Width="120" FontSize="14" Click="btnResult_Click" />
+        <Button Content="系统设置" Height="50" HorizontalAlignment="Left" Margin="207,488,0,0" Name="btnSystemSet" VerticalAlignment="Top" Width="120" FontSize="14" Click="btnSystemSet_Click" />
         <Rectangle HorizontalAlignment="Left" Margin="48,0,0,49" Name="rectangle1" Stroke="#FF48ACD5" Width="1093" Height="2" VerticalAlignment="Bottom" Fill="#FF48ACD5" />
         <TextBlock HorizontalAlignment="Left" Margin="48,0,0,13" Name="textBlock1" Text="Copyright (C) 2015-2016" FontSize="14" Height="23" VerticalAlignment="Bottom" />
         <!--<Image Name="imageArrow1" Stretch="Fill" VerticalAlignment="Top" Source="/Resonance;component/Images/arrow_down.png" Width="40" HorizontalAlignment="Left" Height="40" Margin="359,259,0,0" Visibility="Hidden" />
@@ -22,8 +23,9 @@
         <Image Height="40" HorizontalAlignment="Left" Margin="258,203,0,0" Name="imageDone1" Stretch="Fill" VerticalAlignment="Top" Width="40" Source="/Resonance;component/Images/done.png" Visibility="Hidden" />
         <Image Height="40" HorizontalAlignment="Left" Margin="258,427,0,0" Name="imageDone3" Source="/Resonance;component/Images/done.png" Stretch="Fill" VerticalAlignment="Top" Width="40" Visibility="Hidden" />
         <Image Height="40" HorizontalAlignment="Left" Margin="258,314,0,0" Name="imageDone2" Source="/Resonance;component/Images/done.png" Stretch="Fill" VerticalAlignment="Top" Width="40" Visibility="Hidden" />-->
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="105,359,0,0" Name="textBlock3" Text="标定、波速测试、采集电缆信号，查看简单定位结果" VerticalAlignment="Top" FontSize="14" />
-        <TextBlock FontSize="14" Height="23" HorizontalAlignment="Left" Margin="723,359,0,0" Name="textBlock6" Text="查看测试结果，做具体定位分析、导出报表" VerticalAlignment="Top" />
+        <TextBlock Height="22" HorizontalAlignment="Left" Margin="374,242,0,0" Name="textBlock3" Text="标定、波速测试、采集电缆信号，查看简单定位结果" VerticalAlignment="Top" FontSize="14" />
+        <TextBlock FontSize="14" Height="22" HorizontalAlignment="Left" Margin="374,372,0,0" Name="textBlock6" Text="查看测试结果，做具体定位分析、导出报表" VerticalAlignment="Top" />
         <Image Height="120" HorizontalAlignment="Right" Margin="0,30,36,0" Name="image1" Stretch="Uniform" VerticalAlignment="Top" Source="/Resonance;component/Analyse/Images/XJTU.png" />
+        <TextBlock FontSize="14" Height="22" HorizontalAlignment="Left" Margin="374,502,0,0" x:Name="textBlock6_Copy" Text="设置单位、电压等级等系统参数" VerticalAlignment="Top" />
     </Grid>
 </Page>
