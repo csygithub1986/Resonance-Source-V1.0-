@@ -773,7 +773,7 @@ namespace Resonance
         private void btnCalib_Click(object sender, RoutedEventArgs e)
         {
             gridControl.IsEnabled = false;
-            hint.Text = "正在标定，请稍后......";
+            hint.Text = "正在标定，请稍候......";
             hint.Visibility = Visibility.Visible;
             new Thread(() =>
             {

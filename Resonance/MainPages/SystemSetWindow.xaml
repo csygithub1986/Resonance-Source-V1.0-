@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Background="#F0F0F0" Loaded="Window_Loaded" 
+        mc:Ignorable="d" Background="#F0F0F0" Loaded="Window_Loaded" ShowInTaskbar="False"
+        x:Name="window"
         Title="系统参数设置" Height="400" Width="600" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
@@ -12,21 +13,26 @@
         </Grid.RowDefinitions>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <Grid Margin="5" MinHeight="200">
+                <Grid Margin="5,10" Height="180">
                     <Rectangle Fill="#D0D0D0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="1"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="加压等级：" VerticalAlignment="Top"/>
-                    <Button Content="删除选中" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteVoltage_Click"/>
-                    <ListBox Name="listboxVoltage" HorizontalAlignment="Left" Height="126" Margin="126,10,0,0" VerticalAlignment="Top" Width="202"/>
-                    <Button Content="新增" HorizontalAlignment="Left" Margin="350,152,0,0" VerticalAlignment="Top" Width="75" Click="btnAddVoltage_Click"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="加压倍数：" VerticalAlignment="Top"/>
+                    <Button Name="btnDeleteVoltage" Content="删除选中" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteVoltage_Click"/>
+                    <ListBox Name="listboxVoltage" HorizontalAlignment="Left" Height="126" Margin="126,10,0,0" VerticalAlignment="Top" Width="202" ItemsSource="{Binding VoltageList,ElementName=window}" SelectedItem="{Binding SelectedVoltage,ElementName=window}" SelectionChanged="listboxVoltage_SelectionChanged"/>
+                    <Button Name="btnAddVoltage" Content="新增" HorizontalAlignment="Left" Margin="350,152,0,0" VerticalAlignment="Top" Width="75" Click="btnAddVoltage_Click"/>
                     <TextBox Name="txtAddVoltage" HorizontalAlignment="Left" Height="23" Margin="126,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="202"/>
+                </Grid>
 
+                <Grid Margin="5,10" >
+                    <Rectangle Fill="#D0D0D0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="1"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="扫频窗口：" VerticalAlignment="Top"/>
+                    <CheckBox Name="ckboxShowSweepWindow" Content="开启扫频信号监控窗口" HorizontalAlignment="Left" Margin="126,10,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
         <Grid Grid.Row="1">
             <Rectangle Stroke="#A0A0A0" StrokeThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
-            <Button Content="确定" HorizontalAlignment="Right" Margin="0,0,150,0" VerticalAlignment="Center" Width="90" Height="30"/>
-            <Button Content="取消" HorizontalAlignment="Right" Margin="0,0,30,0" VerticalAlignment="Center" Width="90"  Height="30"/>
+            <Button Content="确定" Click="btnOk_Click" HorizontalAlignment="Right" Margin="0,0,150,0" VerticalAlignment="Center" Width="90" Height="30"/>
+            <Button Content="取消" Click="btnCancel_Click" HorizontalAlignment="Right" Margin="0,0,30,0" VerticalAlignment="Center" Width="90"  Height="30"/>
         </Grid>
     </Grid>
 </Window>

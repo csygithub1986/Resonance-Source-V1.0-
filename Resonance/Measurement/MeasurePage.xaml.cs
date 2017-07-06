@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.Common;
 using System.Collections;
+using Resonance.Properties;
 
 namespace Resonance
 {
@@ -56,7 +57,7 @@ namespace Resonance
         /// <summary>
         /// 测试的电压等级
         /// </summary>
-        double[] vo = { 0.3, 0.5, 0.7, 0.9, 1.0, 1.1, 1.3, 1.5, 1.7, 2.0 };
+        double[] vo;// = { 0.3, 0.5, 0.7, 0.9, 1.0, 1.1, 1.3, 1.5, 1.7, 2.0 };
 
         /// <summary>
         /// 测试相序
@@ -136,7 +137,10 @@ namespace Resonance
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 progressBar.Visibility = Visibility.Hidden;
-                _sweepWin.Close();
+                if (_sweepWin != null && _sweepWin.IsActive)
+                {
+                    _sweepWin.Close();
+                }
             }));
             PrintPrompt("谐振频率 " + MeasureState.CableInfo.Freqs[_phase] + "Hz");
             CableInfo.WriteFile(MeasureState.CableInfo, new FileInfo(MeasureState.CableInfo.Path + "/start.info"));//扫频完成后保存保存
@@ -425,6 +429,7 @@ namespace Resonance
             chartPlotter2.Viewport.Visible = new DataRect(0, -1000, 50, 2000);
 
             //电压等级
+            vo = Settings.Default.VoltageList.Cast<string>().Select(p => double.Parse(p)).ToArray();
             foreach (var item in vo)
             {
                 cbVoltage.Items.Add(item + " U0");
@@ -531,9 +536,12 @@ namespace Resonance
             PrintPrompt("正在扫描 0%");
             progressBar.Value = 0;
 
-            _sweepWin = new SweepWin();
-            _sweepWin.Owner = MainWindow._This;
-            _sweepWin.Show();
+            if (Properties.Settings.Default.EnableSweepWindow)
+            {
+                _sweepWin = new SweepWin();
+                _sweepWin.Owner = MainWindow._This;
+                _sweepWin.Show();
+            }
 
             timer = new Timer((a) =>
             {
@@ -889,7 +897,10 @@ namespace Resonance
             //频率float，幅值float
             float fre = MeasureState.TcpBinaryReader.ReadSingle();
             float value = MeasureState.TcpBinaryReader.ReadSingle();
-            _sweepWin.AddData(new Point(fre, value));
+            if (_sweepWin != null && _sweepWin.IsActive)
+            {
+                _sweepWin.AddData(new Point(fre, value));
+            }
         }
 
         /// <summary>
