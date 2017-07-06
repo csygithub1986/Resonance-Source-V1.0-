@@ -60,7 +60,9 @@ namespace Resonance
         //系统参数设置
         private void btnSystemSet_Click(object sender, RoutedEventArgs e)
         {
-
+            SystemSetWindow setWin = new SystemSetWindow();
+            setWin.Owner = App.Current.MainWindow;
+            setWin.ShowDialog();
         }
     }
 }
