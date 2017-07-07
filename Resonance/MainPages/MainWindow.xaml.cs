@@ -2,6 +2,8 @@
 using System.Windows.Navigation;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace Resonance
 {
@@ -30,6 +32,11 @@ namespace Resonance
             Params.Brush4 = new SolidColorBrush(Params.Color4);
             Params.Colors = new Color[] { Params.Color1, Params.Color2, Params.Color3, Params.Color4 };
             Params.Brushes = new SolidColorBrush[] { Params.Brush1, Params.Brush2, Params.Brush3, Params.Brush4 };
+
+            this.Loaded += delegate
+            {
+                InitializeEvent();
+            };
         }
 
         void MainWindow_Navigated(object sender, NavigationEventArgs e)
@@ -58,5 +65,104 @@ namespace Resonance
                 CloseWindowEvent();
             }
         }
+
+
+        #region BaseWindow
+        private void InitializeEvent()
+        {
+            ControlTemplate baseWindowTemplate = Template;// (ControlTemplate)Application.Current.Resources["BaseWindowControlTemplate"];
+            Image imgLogo = (Image)baseWindowTemplate.FindName("imgLogo", this);
+            imgLogo.Source = Icon;// new System.Windows.Media.Imaging.BitmapImage(new System.Uri("/images/logo32.png", UriKind.RelativeOrAbsolute));
+
+            TextBlock txtTitle = (TextBlock)baseWindowTemplate.FindName("txtTitle", this);
+            txtTitle.Text = Title;
+
+            Button settingBtn = (Button)baseWindowTemplate.FindName("btnSetting", this);
+            settingBtn.Click += SettingBtn_Click;
+
+            Button minBtn = (Button)baseWindowTemplate.FindName("btnMin", this);
+            minBtn.Click += delegate
+            {
+                this.WindowState = WindowState.Minimized;
+            };
+
+            Button maxBtn = (Button)baseWindowTemplate.FindName("btnMax", this);
+            Viewbox maxView = Application.Current.Resources["MaxButtonTemplate"] as Viewbox;
+            Viewbox restoreView = Application.Current.Resources["RestoreButtonTemplate"] as Viewbox;
+
+            string xaml = System.Windows.Markup.XamlWriter.Save(maxView);
+            maxView = System.Windows.Markup.XamlReader.Parse(xaml) as Viewbox;
+            xaml = System.Windows.Markup.XamlWriter.Save(restoreView);
+            restoreView = System.Windows.Markup.XamlReader.Parse(xaml) as Viewbox;
+
+            if (WindowState == WindowState.Maximized)
+            {
+                maxBtn.Content = restoreView;
+            }
+            else
+            {
+                maxBtn.Content = maxView;
+            }
+            maxBtn.Click += delegate
+            {
+                if (WindowState == WindowState.Maximized)
+                {
+                    this.WindowState = WindowState.Normal;
+                    maxBtn.Content = maxView;
+                }
+                else
+                {
+                    this.WindowState = WindowState.Maximized;
+                    maxBtn.Content = restoreView;
+                }
+            };
+
+            Button closeBtn = (Button)baseWindowTemplate.FindName("btnClose", this);
+            closeBtn.Click += delegate
+            {
+                this.Close();
+            };
+
+            Border borderTitle = (Border)baseWindowTemplate.FindName("borderTitle", this);
+            borderTitle.MouseMove += delegate (object sender, MouseEventArgs e)
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    this.DragMove();
+                }
+            };
+
+            borderTitle.MouseLeftButtonDown += delegate (object sender, MouseButtonEventArgs e)
+            {
+                if (e.ClickCount >= 2)
+                {
+                    if (maxBtn.Visibility == Visibility.Visible)
+                        maxBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                }
+            };
+        }
+
+        //系统参数设置
+        private void SettingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SystemSetWindow setWin = new SystemSetWindow();
+            setWin.Owner = App.Current.MainWindow;
+            setWin.ShowDialog();
+        }
+
+        private void InitializeStyle()
+        {
+            //this.Style = (Style)Application.Current.Resources["BaseWindowStyle"];
+            //this.MaxHeight = SystemParameters.WorkArea.Height;
+        }
+
+        public virtual void SetWindowTitle(string WindowTitle)
+        {
+            ControlTemplate baseWindowTemplate = (ControlTemplate)Application.Current.Resources["BaseWindowControlTemplate"];
+            TextBlock txtTitle = (TextBlock)baseWindowTemplate.FindName("txtTitle", this);
+            if (txtTitle != null)
+                txtTitle.Text = WindowTitle;
+        }
+        #endregion
     }//end class
 }
