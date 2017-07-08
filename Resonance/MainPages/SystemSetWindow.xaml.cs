@@ -40,6 +40,9 @@ namespace Resonance
             {
                 rbUnitPC.IsChecked = true;
             }
+            //波速
+            txtMinVelocity.Text = Settings.Default.MinCalibVelocity.ToString();
+            txtMaxVelocity.Text = Settings.Default.MaxCalibVelocity.ToString();
         }
 
         #region 加压等级
@@ -97,6 +100,23 @@ namespace Resonance
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
+            //波速
+            double minV;
+            double maxV;
+            if (!double.TryParse(txtMinVelocity.Text, out minV) || !double.TryParse(txtMaxVelocity.Text, out maxV))
+            {
+                MessageBox.Show("请填写正确的速度格式");
+                return;
+            }
+            if (minV < 10 || maxV > 1000 || minV >= maxV)
+            {
+                MessageBox.Show("波速太离谱（<10或>1000或小值比大值大）");
+                return;
+            }
+            Settings.Default.MinCalibVelocity = minV;
+            Settings.Default.MaxCalibVelocity = maxV;
+
+
             //加压等级
             var vlist = new System.Collections.Specialized.StringCollection();
             vlist.AddRange(VoltageList.ToArray());
@@ -104,8 +124,13 @@ namespace Resonance
             Settings.Default.EnableSweepWindow = (bool)ckboxShowSweepWindow.IsChecked;
             //局放单位
             Settings.Default.DischargeUnit = rbUnitMV.IsChecked == true ? 0 : 1;
-
+            //改变依赖属性
+            Params.DischargeUnit = Properties.Settings.Default.DischargeUnit == 0 ? "放电幅值 (mV)" : "放电量 (pC)";
+            Params.MaxDischarge = Properties.Settings.Default.DischargeUnit == 0 ? "最大放电幅值" : "最大放电量";
+            Params.UnitChar = Properties.Settings.Default.DischargeUnit == 0 ? "mV" : "pC";
+            //保存
             Settings.Default.Save();
+
             this.Close();
         }
 

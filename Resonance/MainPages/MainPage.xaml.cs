@@ -30,7 +30,7 @@ namespace Resonance
         private void btnSetting_Click(object sender, RoutedEventArgs e)
         {
             CableInfoWin w = new CableInfoWin();
-            w.Owner = MainWindow._This;
+            w.Owner = MainWindow.Instance;
             w.ShowDialog();
 
             if (!w.Ok)
@@ -42,8 +42,7 @@ namespace Resonance
             WlanPage wp = new WlanPage();
             NavigationService.Navigate(wp);
 
-            //MeasurePage mw = new MeasurePage(w.Info);
-            //NavigationService.Navigate(mw);
+            MainWindow.Instance.SettingBtn.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -55,6 +54,7 @@ namespace Resonance
         {
             ChooseFilePage p = new ChooseFilePage();
             NavigationService.Navigate(p);
+            MainWindow.Instance.SettingBtn.Visibility = Visibility.Collapsed;
         }
     }
 }

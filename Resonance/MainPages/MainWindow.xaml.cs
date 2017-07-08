@@ -13,11 +13,12 @@ namespace Resonance
     public partial class MainWindow : NavigationWindow
     {
 
-        public static MainWindow _This;
+        public static MainWindow Instance;
         public event Action CloseWindowEvent;
+        public Button SettingBtn;
         public MainWindow()
         {
-            _This = this;
+            Instance = this;
             InitializeComponent();
             Navigated += new NavigatedEventHandler(MainWindow_Navigated);
 
@@ -37,6 +38,7 @@ namespace Resonance
             {
                 InitializeEvent();
             };
+
         }
 
         void MainWindow_Navigated(object sender, NavigationEventArgs e)
@@ -77,8 +79,8 @@ namespace Resonance
             TextBlock txtTitle = (TextBlock)baseWindowTemplate.FindName("txtTitle", this);
             txtTitle.Text = Title;
 
-            Button settingBtn = (Button)baseWindowTemplate.FindName("btnSetting", this);
-            settingBtn.Click += SettingBtn_Click;
+            SettingBtn = (Button)baseWindowTemplate.FindName("btnSetting", this);
+            SettingBtn.Click += SettingBtn_Click;
 
             Button minBtn = (Button)baseWindowTemplate.FindName("btnMin", this);
             minBtn.Click += delegate
@@ -164,5 +166,7 @@ namespace Resonance
                 txtTitle.Text = WindowTitle;
         }
         #endregion
+
+
     }//end class
 }

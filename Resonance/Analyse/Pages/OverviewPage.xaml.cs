@@ -149,15 +149,15 @@ namespace Resonance
                 lineGraphQ[i].Stroke = Params.Brushes[i];
                 dic[i] = dic[i].OrderBy(a => a.Key).ToDictionary(a => a.Key, b => b.Value);
                 double[] x = dic[i].Keys.Select(a => a).ToArray();
-                double[] y = dic[i].Values.Select(a => a.Average() * Params.HV_Coeffi).ToArray();
+                double[] y = dic[i].Values.Select(a => a.Average() * Params.HV_Coeffi * Params.mVTopC[i]).ToArray();
                 DisplayHelper.StaticDisplay(lineGraphQ[i], x, 1, y, 1);
 
                 foreach (var item in dic[i])
                 {
                     RectangleHighlight rh = new RectangleHighlight();
-                    double max = item.Value.Max() * Params.HV_Coeffi;
-                    double min = item.Value.Min() * Params.HV_Coeffi;
-                    double avg = item.Value.Average() * Params.HV_Coeffi;
+                    double max = item.Value.Max() * Params.HV_Coeffi * Params.mVTopC[i];
+                    double min = item.Value.Min() * Params.HV_Coeffi * Params.mVTopC[i];
+                    double avg = item.Value.Average() * Params.HV_Coeffi * Params.mVTopC[i];
                     rh.Bounds = new Rect(item.Key - 0.02, min, 0.04, max - min);
                     rh.Fill = Params.Brushes[3];
                     rh.Stroke = Params.Brushes[3];
@@ -166,8 +166,8 @@ namespace Resonance
                     rh.ToolTip = "最大：" + max + "\r\n平均：" + avg + "\r\n最小：" + min;
                     plotterQ[i].Children.Add(rh);
                 }
-                double top = dic[i].Values.Select(a => a.Max()).Max() * Params.HV_Coeffi;
-                double bottom = dic[i].Values.Select(a => a.Min()).Min() * Params.HV_Coeffi;
+                double top = dic[i].Values.Select(a => a.Max()).Max() * Params.HV_Coeffi * Params.mVTopC[i];
+                double bottom = dic[i].Values.Select(a => a.Min()).Min() * Params.HV_Coeffi * Params.mVTopC[i];
                 double height = top - bottom;
                 double left = plotterQ[i].Viewport.Visible.X;
                 double width = plotterQ[i].Viewport.Visible.Width;

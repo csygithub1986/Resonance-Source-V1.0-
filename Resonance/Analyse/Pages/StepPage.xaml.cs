@@ -21,8 +21,8 @@ namespace Resonance
         double[] hvShowData;
         double[] pdShowData;
 
-        double[] vo = { 0.1, 1.0, 1.1, 1.3, 1.5, 1.7, 2.0 };
         string[] phaseStr = { "A", "B", "C" };
+        int currentPhase;
 
         ListBoxItem[] lbItems;
 
@@ -66,7 +66,7 @@ namespace Resonance
         {
             ListBoxItem item = sender as ListBoxItem;
             FileInfo fi = item.Tag as FileInfo;
-            int p = "ABC".IndexOf(fi.Name.Substring(0, 1));
+            currentPhase = "ABC".IndexOf(fi.Name.Substring(0, 1));
             _dataInfo = DataInfo.Read(fi, out hvValidData, out pdValidData);
             //文件列表
             lbPeriod.Items.Clear();
@@ -124,7 +124,7 @@ namespace Resonance
             //{
             lineGraph2.LinePen = new Pen(Params.Brushes[_dataInfo.Phase], 1);
             DisplayHelper.DynamicDisplay(chartPlotter1, lineGraph1, hvShowData, 1.0 / Params.SamRateHv, 1, false);
-            DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, 1, false);
+            DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, Params.mVTopC[currentPhase], false);
             //}));
             //double hvmax = MeasureState.CableInfo.U0 * 2;// hvShowData.Max() * 1.1;
             //double pdmax = 1000;// pdShowData.Max() * 1.1;
@@ -134,7 +134,7 @@ namespace Resonance
             //chartPlotter1.Visible = new Rect(0, -max * 1.1, len, 2 * max * 1.1);
             //chartPlotter2.Visible = new Rect(0, -pdmax, len, 2 * pdmax);
             chartPlotter1.Visible = new Rect(0, -_dataInfo.VoltageLevel * MeasureState.CableInfo.Upp * 1.1, len, 2 * _dataInfo.VoltageLevel * MeasureState.CableInfo.Upp * 1.1);
-            chartPlotter2.Visible = new Rect(0, -Params.Range[_dataInfo.RangeIndex] * 1000, len, 2 * Params.Range[_dataInfo.RangeIndex] * 1000);
+            chartPlotter2.Visible = new Rect(0, -Params.Range[_dataInfo.RangeIndex] * Params.mVTopC[currentPhase] * 1000, len, 2 * Params.Range[_dataInfo.RangeIndex] * Params.mVTopC[currentPhase] * 1000);
         }
 
         /// <summary>
@@ -152,8 +152,8 @@ namespace Resonance
         private void Init()
         {
             //波形图
-            new PlotterWrap().Wrap(chartPlotter1, MainWindow._This);
-            new PlotterWrap().Wrap(chartPlotter2, MainWindow._This);
+            new PlotterWrap().Wrap(chartPlotter1, MainWindow.Instance);
+            new PlotterWrap().Wrap(chartPlotter2, MainWindow.Instance);
             chartPlotter1.Viewport.PropertyChanged += new EventHandler<ExtendedPropertyChangedEventArgs>(plotter1_PropertyChanged);
             chartPlotter2.Viewport.PropertyChanged += new EventHandler<ExtendedPropertyChangedEventArgs>(plotter2_PropertyChanged);
             chartPlotter1.Viewport.Visible = new DataRect(0, -20, 50, 40);
@@ -197,7 +197,7 @@ namespace Resonance
                 }
                 //chartPlotter2.Viewport.PropertyChanged -= new EventHandler<ExtendedPropertyChangedEventArgs>
                 //(plotter2_PropertyChanged);
-                DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, 1.0, false);
+                DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, Params.mVTopC[currentPhase], false);
                 //    chartPlotter2.Viewport.PropertyChanged += new EventHandler<ExtendedPropertyChangedEventArgs>
                 //(plotter2_PropertyChanged);
                 chartPlotter1.Viewport.Visible = new DataRect(chartPlotter2.Viewport.Visible.X,
@@ -258,7 +258,7 @@ namespace Resonance
             txtCap.Content = _dataInfo.Cap.ToString("F1") + " nF";
             txtFre.Content = _dataInfo.Fre.ToString("F1") + " Hz";
             txtHvVol.Content = actualVol.ToString("F1") + " kV";
-            txtMaxPd.Content = _dataInfo.MaxPd.ToString("F1") + " mV";
+            txtMaxPd.Content = (_dataInfo.MaxPd * Params.mVTopC[currentPhase]).ToString("F1") + " " + Params.UnitChar;
         }
     }
 }

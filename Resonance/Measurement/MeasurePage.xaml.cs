@@ -182,7 +182,7 @@ namespace Resonance
                     hvShowData = hvReceiveBuffer.Select(a => a * Params.HV_Coeffi).ToArray();
                     pdShowData = pdReceiveBuffer.Select(a => a * Params.PD_Coeffi).ToArray();
                     DisplayHelper.DynamicDisplay(chartPlotter1, lineGraph1, hvShowData, 1.0 / Params.SamRateHv, 1, false);
-                    DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, 1, false);
+                    DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, Params.mVTopC[_phase], false);
                 }));
                 UIMeasuring(false);
                 return;
@@ -288,8 +288,8 @@ namespace Resonance
             txtCap.Content = _dataInfo.Cap.ToString("F1") + " nF";
             txtFre.Content = _dataInfo.Fre.ToString("F1") + " Hz";
             txtHvVol.Content = actualVol.ToString("F1") + " kV";
-            txtMaxPd.Content = _dataInfo.MaxPd.ToString("F1") + " mV";
             txtTestDate.Content = _dataInfo.TestDate.ToString("HH:mm");
+            txtMaxPd.Content = (_dataInfo.MaxPd * Params.mVTopC[_dataInfo.Phase]).ToString("F1") + " " + Params.UnitChar;
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace Resonance
 
             lineGraph2.Stroke = Params.Brushes[_dataInfo.Phase];
             DisplayHelper.DynamicDisplay(chartPlotter1, lineGraph1, hvShowData, 1.0 / Params.SamRateHv, 1, false);
-            DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, 1, false);
+            DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, Params.mVTopC[_phase], false);
 
             //double pdmax = pdShowData.Max() * 1.1;
             //if (pdmax < 10)
@@ -343,7 +343,7 @@ namespace Resonance
             double len = hvShowData.Length / Params.SamRateHv;
             chartPlotter1.Visible = new Rect(0, -_dataInfo.VoltageLevel * MeasureState.CableInfo.Upp * 1.1, len, 2 * _dataInfo.VoltageLevel * MeasureState.CableInfo.Upp * 1.1);
             //chartPlotter2.Visible = new Rect(0, -pdmax, len, 2 * pdmax);
-            chartPlotter2.Visible = new Rect(0, -Params.Range[_dataInfo.RangeIndex] * 1000, len, 2 * Params.Range[_dataInfo.RangeIndex] * 1000);
+            chartPlotter2.Visible = new Rect(0, -Params.Range[_dataInfo.RangeIndex] * Params.mVTopC[_phase] * 1000, len, 2 * Params.Range[_dataInfo.RangeIndex] * Params.mVTopC[_phase] * 1000);
         }
 
         /// <summary>
@@ -421,8 +421,8 @@ namespace Resonance
             progressBar.Visibility = Visibility.Hidden;
 
             //波形图
-            new PlotterWrap().Wrap(chartPlotter1, MainWindow._This);
-            new PlotterWrap().Wrap(chartPlotter2, MainWindow._This);
+            new PlotterWrap().Wrap(chartPlotter1, MainWindow.Instance);
+            new PlotterWrap().Wrap(chartPlotter2, MainWindow.Instance);
             chartPlotter1.Viewport.PropertyChanged += new EventHandler<ExtendedPropertyChangedEventArgs>(plotter1_PropertyChanged);
             chartPlotter2.Viewport.PropertyChanged += new EventHandler<ExtendedPropertyChangedEventArgs>(plotter2_PropertyChanged);
             chartPlotter1.Viewport.Visible = new DataRect(0, -20, 50, 40);
@@ -475,7 +475,7 @@ namespace Resonance
                 {
                     return;
                 }
-                DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, 1.0, false);
+                DisplayHelper.DynamicDisplay(chartPlotter2, lineGraph2, pdShowData, 1.0 / Params.SamRatePd, Params.mVTopC[_phase], false);
                 chartPlotter1.Viewport.Visible = new DataRect(chartPlotter2.Viewport.Visible.X,
                     chartPlotter1.Viewport.Visible.Y, chartPlotter2.Viewport.Visible.Width, chartPlotter1.Viewport.Visible.Height);
             }
@@ -539,7 +539,7 @@ namespace Resonance
             if (Properties.Settings.Default.EnableSweepWindow)
             {
                 _sweepWin = new SweepWin();
-                _sweepWin.Owner = MainWindow._This;
+                _sweepWin.Owner = MainWindow.Instance;
                 _sweepWin.Show();
             }
 
@@ -777,7 +777,7 @@ namespace Resonance
             {
                 EnableUI(true, gridCtr, lbFile, gridDisplay, btnClose, btnSweep);
             }, null, 2000, Timeout.Infinite);
-            MainWindow._This.CloseWindowEvent += CloseDevice;
+            MainWindow.Instance.CloseWindowEvent += CloseDevice;
         }
 
         /// <summary>
@@ -822,7 +822,7 @@ namespace Resonance
                 EnableUI(true, btnOpen);
                 timer.Dispose();
             }, null, 2000, Timeout.Infinite);
-            MainWindow._This.CloseWindowEvent -= CloseDevice;
+            MainWindow.Instance.CloseWindowEvent -= CloseDevice;
         }
 
         /// <summary>
@@ -830,7 +830,7 @@ namespace Resonance
         /// </summary>
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow._This.Close();
+            MainWindow.Instance.Close();
         }
 
         private void menuHelp_Click(object sender, RoutedEventArgs e)
@@ -909,7 +909,7 @@ namespace Resonance
         private void menuLocate_Click(object sender, RoutedEventArgs e)
         {
             LocationInMeaWin lmw = new LocationInMeaWin(_phase);
-            lmw.Owner = MainWindow._This;
+            lmw.Owner = MainWindow.Instance;
             lmw.ShowDialog();
         }
 

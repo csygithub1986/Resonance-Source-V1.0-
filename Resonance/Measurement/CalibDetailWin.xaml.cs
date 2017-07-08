@@ -603,9 +603,9 @@ namespace Resonance
                 return;
             }
 
-            if (CalInfo.Velocity < 150 || CalInfo.Velocity > 190)
+            if (CalInfo.Velocity < Properties.Settings.Default.MinCalibVelocity || CalInfo.Velocity > Properties.Settings.Default.MaxCalibVelocity)
             {
-                MessageBox.Show("脉冲传播速度应在170m/us左右", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("脉冲传播速度应在" + Properties.Settings.Default.MinCalibVelocity + "~" + Properties.Settings.Default.MaxCalibVelocity + "m/us之间", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             if (CalInfo.Attenuation > 5 || CalInfo.Attenuation < 0)//e^-5=0.6%
@@ -631,7 +631,7 @@ namespace Resonance
         private void btnSet_Click(object sender, RoutedEventArgs e)
         {
             LocParamWin lpw = new LocParamWin(true);
-            lpw.Owner = MainWindow._This;
+            lpw.Owner = MainWindow.Instance;
             lpw.ShowDialog();
         }
 

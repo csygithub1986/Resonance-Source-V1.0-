@@ -70,5 +70,29 @@ namespace Resonance.Properties {
                 this["DischargeUnit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("150")]
+        public double MinCalibVelocity {
+            get {
+                return ((double)(this["MinCalibVelocity"]));
+            }
+            set {
+                this["MinCalibVelocity"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public double MaxCalibVelocity {
+            get {
+                return ((double)(this["MaxCalibVelocity"]));
+            }
+            set {
+                this["MaxCalibVelocity"] = value;
+            }
+        }
     }
 }

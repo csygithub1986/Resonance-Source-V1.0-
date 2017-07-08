@@ -237,6 +237,14 @@ namespace Resonance
                     continue;
                 }
                 gd.CalibrationInfos[i] = CalibrationInfo.ReadFile(fileInfo);
+                if (Properties.Settings.Default.DischargeUnit == 0)//mV
+                {
+                    Params.mVTopC[i] = 1;
+                }
+                else//pC
+                {
+                    Params.mVTopC[i] = gd.CalibrationInfos[i].PcPerMv;
+                }
             }
             //读PRP
             FileInfo prpFile = new FileInfo(MeasureState.CableInfo.Path.FullName + "/prpd.dat");

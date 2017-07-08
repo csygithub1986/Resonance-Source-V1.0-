@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Background="#FDFDFD" Loaded="Window_Loaded" ShowInTaskbar="False"
         x:Name="window"
-        Title="系统参数设置" Height="400" Width="600" WindowStartupLocation="CenterOwner">
+        Title="系统参数设置" Height="450" Width="600" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}"/>
     </Window.Resources>
@@ -34,8 +34,17 @@
                 <Grid Margin="5,10" >
                     <Rectangle Fill="#D0D0D0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="1"/>
                     <TextBlock FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="局放单位：" VerticalAlignment="Top"/>
-                    <RadioButton Name="rbUnitMV" Content="mV" Margin="126,10,0,0" GroupName="unit"></RadioButton>
-                    <RadioButton Name="rbUnitPC" Content="pC" Margin="210,10,0,0" GroupName="unit"></RadioButton>
+                    <RadioButton Name="rbUnitMV" Content="mV" HorizontalAlignment="Left" Margin="126,10,0,0" GroupName="unit"></RadioButton>
+                    <RadioButton Name="rbUnitPC" Content="pC" HorizontalAlignment="Left" Margin="210,10,0,0" GroupName="unit"></RadioButton>
+                </Grid>
+
+                <Grid Margin="5,10" >
+                    <Rectangle Fill="#D0D0D0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="1"/>
+                    <TextBlock FontWeight="Bold" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="标定分析：" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="126,10,0,0" TextWrapping="Wrap" Text="最小波速 (m/us)" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="126,36,0,0" TextWrapping="Wrap" Text="最大波速 (m/us)" VerticalAlignment="Top"/>
+                    <TextBox Name="txtMinVelocity" HorizontalAlignment="Left" Height="24" VerticalContentAlignment="Center" Margin="230,6,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                    <TextBox Name="txtMaxVelocity" HorizontalAlignment="Left" Height="24" VerticalContentAlignment="Center" Margin="230,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

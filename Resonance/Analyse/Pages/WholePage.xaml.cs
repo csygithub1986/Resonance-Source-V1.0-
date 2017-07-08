@@ -49,7 +49,7 @@ namespace Resonance
         private void menuReport_Click(object sender, RoutedEventArgs e)
         {
             ReportWin w = new ReportWin();
-            w.Owner = MainWindow._This;
+            w.Owner = MainWindow.Instance;
             w.ShowDialog();
         }
 
@@ -76,7 +76,7 @@ namespace Resonance
         private void menuParamSet_Click(object sender, RoutedEventArgs e)
         {
             LocParamWin lpw = new LocParamWin(false);
-            lpw.Owner = MainWindow._This;
+            lpw.Owner = MainWindow.Instance;
             lpw.ShowDialog();
             if (lpw.IsOk)
             {

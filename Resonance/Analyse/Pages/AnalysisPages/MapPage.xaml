@@ -62,7 +62,7 @@
                 </d3:LineGraph.LinePen>
             </d3:LineGraph>
 
-            <d3:VerticalAxisTitle Content="放电幅值 (mV)" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <d3:VerticalAxisTitle Content="{Binding DischargeUnit,Source={StaticResource params}}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             <d3:HorizontalAxisTitle Content="时间 (ms)" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
         </d3:ChartPlotter>
         <TextBlock Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="13,102,0,0" Name="textBlock5" Text="最高电压" VerticalAlignment="Top" />

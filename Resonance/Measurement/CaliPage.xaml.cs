@@ -91,7 +91,7 @@ namespace Resonance
         private void btnDetail_Click(object sender, RoutedEventArgs e)
         {
             CalibDetailWin cdw = new CalibDetailWin(_caliInfo, false);
-            cdw.Owner = MainWindow._This;
+            cdw.Owner = MainWindow.Instance;
             cdw.ShowDialog();
         }
 
@@ -103,7 +103,7 @@ namespace Resonance
         private void btnCalib_Click(object sender, RoutedEventArgs e)
         {
             CalibDetailWin cdw = new CalibDetailWin(null, true);
-            cdw.Owner = MainWindow._This;
+            cdw.Owner = MainWindow.Instance;
             cdw.ShowDialog();
 
             Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>

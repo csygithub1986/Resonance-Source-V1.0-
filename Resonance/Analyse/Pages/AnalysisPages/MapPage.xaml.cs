@@ -336,7 +336,7 @@ namespace Resonance
             }
             Array.Copy(locShowData, pointStart, showY, 0, pointNum);
 
-            DisplayHelper.StaticDisplay(lineGraphLoc, showX, 1, showY, 1);
+            DisplayHelper.StaticDisplay(lineGraphLoc, showX, 1, showY, Params.mVTopC[_ph]);
             AddMarker(locShowData);
 
             ShowAtten();
@@ -364,7 +364,7 @@ namespace Resonance
             {
                 attenY[i] = currentPiar.Amplitude * Math.Exp(-AnalyseState.Instance.CalibrationInfos[_ph].Attenuation * (i - side) / Params.SamRatePd*1000);
             }
-            DisplayHelper.StaticDisplay(lineGraphAtten, attenX, 1, attenY, 1);
+            DisplayHelper.StaticDisplay(lineGraphAtten, attenX, 1, attenY, Params.mVTopC[_ph]);
         }
 
         /// <summary>
@@ -393,20 +393,20 @@ namespace Resonance
         {
             plotterLoc.Children.RemoveAll(typeof(TriangleHighlight));
 
-            TriangleHighlight thIn = new TriangleHighlight(currentPiar.Amplitude > 0 ? TriangleFixPosition.Down : TriangleFixPosition.Up, new Point(currentPiar.EnterIndex / Params.SamRatePd, data[currentPiar.EnterIndex]), 10);
+            TriangleHighlight thIn = new TriangleHighlight(currentPiar.Amplitude > 0 ? TriangleFixPosition.Down : TriangleFixPosition.Up, new Point(currentPiar.EnterIndex / Params.SamRatePd, data[currentPiar.EnterIndex]* Params.mVTopC[_ph]), 10);
             thIn.Fill = Brushes.Green;
             thIn.StrokeThickness = 0;
             plotterLoc.Children.Add(thIn);
 
             for (int i = 0; i < currentPiar.RTList.Count; i++)
             {
-                TriangleHighlight thPoten = new TriangleHighlight(currentPiar.Amplitude > 0 ? TriangleFixPosition.Down : TriangleFixPosition.Up, new Point(currentPiar.RTList[i] / Params.SamRatePd, data[currentPiar.RTList[i]]), 10);
+                TriangleHighlight thPoten = new TriangleHighlight(currentPiar.Amplitude > 0 ? TriangleFixPosition.Down : TriangleFixPosition.Up, new Point(currentPiar.RTList[i] / Params.SamRatePd, data[currentPiar.RTList[i]] * Params.mVTopC[_ph]), 10);
                 thPoten.Fill = Brushes.Gray;
                 thPoten.StrokeThickness = 0;
                 plotterLoc.Children.Add(thPoten);
             }
 
-            thOut = new TriangleHighlight(currentPiar.Amplitude > 0 ? TriangleFixPosition.Down : TriangleFixPosition.Up, new Point(currentPiar.ReflectIndex / Params.SamRatePd, data[currentPiar.ReflectIndex]), 10);
+            thOut = new TriangleHighlight(currentPiar.Amplitude > 0 ? TriangleFixPosition.Down : TriangleFixPosition.Up, new Point(currentPiar.ReflectIndex / Params.SamRatePd, data[currentPiar.ReflectIndex] * Params.mVTopC[_ph]), 10);
             thOut.Fill = Brushes.Red;
             thOut.StrokeThickness = 0;
             plotterLoc.Children.Add(thOut);

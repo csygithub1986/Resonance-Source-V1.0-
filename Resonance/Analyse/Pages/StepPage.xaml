@@ -7,107 +7,107 @@
       mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1132"
 	  Title="StepPage">
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="424*" />
-                <!--<RowDefinition Height="26" />-->
-                <!--<RowDefinition Height="1" />-->
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="424*" />
+            <!--<RowDefinition Height="26" />-->
+            <!--<RowDefinition Height="1" />-->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="732*" />
+            <ColumnDefinition Width="158*" />
+        </Grid.ColumnDefinitions>
+
+        <!--文件列表-->
+        <ListBox Name="lbFile" BorderThickness="1">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="删除" Click="MenuFile_Del"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            <ListBoxItem Content="A相" Focusable="False" Name="lbItemA" FontWeight="Bold" Foreground="#FF0070C0"></ListBoxItem>
+            <ListBoxItem Content="B相" Focusable="False" Name="lbItemB" FontWeight="Bold" Foreground="#FFC00000"></ListBoxItem>
+            <ListBoxItem Content="C相" Focusable="False" Name="lbItemC" FontWeight="Bold" Foreground="#FF77933C"></ListBoxItem>
+        </ListBox>
+
+        <!--显示控件-->
+        <Grid Grid.Column="1" Name="gridDisplay">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120" />
-                <ColumnDefinition Width="732*" />
-                <ColumnDefinition Width="158*" />
+                <ColumnDefinition Width="700*" />
+                <ColumnDefinition Width="32" />
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*" />
+                <RowDefinition Height="8*" />
+            </Grid.RowDefinitions>
+            <!--高压波形-->
+            <TextBlock Text="    高压（kV）" TextWrapping="NoWrap"  HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="0,48">
+                <TextBlock.LayoutTransform>
+                    <RotateTransform Angle="270"/>
+                </TextBlock.LayoutTransform>
+            </TextBlock>
+            <d3:ChartPlotter Name="chartPlotter1" Margin="35,0,0,0">
+                <d3:LineGraph Name="lineGraph1"  DataContext="{Binding}" FlowDirection="LeftToRight">
+                    <d3:LineGraph.LinePen>
+                        <!--<Pen Brush="#FF0c86e4"/>-->
+                        <Pen Brush="#FFE46C0A"/>
+                    </d3:LineGraph.LinePen>
+                    <d3:LineGraph.Description>
+                        <d3:PenDescription DescriptionString="高压"></d3:PenDescription>
+                    </d3:LineGraph.Description>
+                </d3:LineGraph>
 
-            <!--文件列表-->
-            <ListBox Name="lbFile" BorderThickness="1">
-                <ListBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="删除" Click="MenuFile_Del"/>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-                <ListBoxItem Content="A相" Focusable="False" Name="lbItemA" FontWeight="Bold" Foreground="#FF0070C0"></ListBoxItem>
-                <ListBoxItem Content="B相" Focusable="False" Name="lbItemB" FontWeight="Bold" Foreground="#FFC00000"></ListBoxItem>
-                <ListBoxItem Content="C相" Focusable="False" Name="lbItemC" FontWeight="Bold" Foreground="#FF77933C"></ListBoxItem>
-            </ListBox>
+                <d3:ChartPlotter.VerticalAxis>
+                    <d3:VerticalAxis Name="hvVerticalAxis" SizeChanged="HVAxis_SizeChanged"/>
+                </d3:ChartPlotter.VerticalAxis>
+            </d3:ChartPlotter>
 
-            <!--显示控件-->
-            <Grid Grid.Column="1" Name="gridDisplay">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="700*" />
-                    <ColumnDefinition Width="32" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="7*" />
-                    <RowDefinition Height="8*" />
-                </Grid.RowDefinitions>
-                <!--高压波形-->
-                <TextBlock Text="    高压（kV）" TextWrapping="NoWrap"  HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="0,48">
-                    <TextBlock.LayoutTransform>
-                        <RotateTransform Angle="270"/>
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
-                <d3:ChartPlotter Name="chartPlotter1" Margin="35,0,0,0">
-                    <d3:LineGraph Name="lineGraph1"  DataContext="{Binding}" FlowDirection="LeftToRight">
-                        <d3:LineGraph.LinePen>
-                            <!--<Pen Brush="#FF0c86e4"/>-->
-                            <Pen Brush="#FFE46C0A"/>
-                        </d3:LineGraph.LinePen>
-                        <d3:LineGraph.Description>
-                            <d3:PenDescription DescriptionString="高压"></d3:PenDescription>
-                        </d3:LineGraph.Description>
-                    </d3:LineGraph>
+            <!--局部放电波形-->
+            <TextBlock Text="{Binding DischargeUnit,Source={StaticResource params}}" Grid.Row="1" TextWrapping="NoWrap"  HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="0,61">
+                <TextBlock.LayoutTransform>
+                    <RotateTransform Angle="270"/>
+                </TextBlock.LayoutTransform>
+            </TextBlock>
+            <d3:ChartPlotter Name="chartPlotter2"  Grid.Row="1" Margin="35,0,0,0">
+                <!--<d3:VerticalAxisTitle Content="PD电压 (mV)"/>-->
+                <d3:HorizontalAxisTitle Content="时间 (ms)" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsTabStop="False" />
 
-                    <d3:ChartPlotter.VerticalAxis>
-                        <d3:VerticalAxis Name="hvVerticalAxis" SizeChanged="HVAxis_SizeChanged"/>
-                    </d3:ChartPlotter.VerticalAxis>
-                </d3:ChartPlotter>
-
-                <!--局部放电波形-->
-                <TextBlock Text="   局放（mV）" Grid.Row="1" TextWrapping="NoWrap"  HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="0,61">
-                    <TextBlock.LayoutTransform>
-                        <RotateTransform Angle="270"/>
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
-                <d3:ChartPlotter Name="chartPlotter2"  Grid.Row="1" Margin="35,0,0,0">
-                    <!--<d3:VerticalAxisTitle Content="PD电压 (mV)"/>-->
-                    <d3:HorizontalAxisTitle Content="时间 (ms)" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsTabStop="False" />
-
-                    <d3:LineGraph Name="lineGraph2"   DataContext="{Binding}" FlowDirection="LeftToRight" >
-                        <d3:LineGraph.Description>
-                            <d3:PenDescription DescriptionString="局放"></d3:PenDescription>
-                        </d3:LineGraph.Description>
-                    </d3:LineGraph>
-                    <d3:ChartPlotter.VerticalAxis>
-                        <d3:VerticalAxis Name="pdVerticalAxis" SizeChanged="PdAxis_SizeChanged"/>
-                    </d3:ChartPlotter.VerticalAxis>
-                </d3:ChartPlotter>
-                <ListBox Grid.Column="1"  Name="lbPeriod" Grid.RowSpan="2" BorderThickness="1" />
-            </Grid>
-
-            <!--信息-->
-            <StackPanel Grid.Column="2">
-                <TextBlock Text="属性" Background="Gray" FontSize="14" Padding="3" Foreground="White"></TextBlock>
-                <Grid Margin="3">
-                    <TextBlock Text="相序" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                    <Label Name="txtPhase" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1"  Content=""  HorizontalAlignment="Right"></Label>
-                </Grid>
-                <Grid Margin="3">
-                    <TextBlock Text="高压幅值" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                    <Label Name="txtHvVol" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
-                </Grid>
-                <Grid Margin="3">
-                    <TextBlock Text="振荡频率" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                    <Label Name="txtFre" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
-                </Grid>
-                <Grid Margin="3">
-                    <TextBlock Text="电缆电容" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                    <Label Name="txtCap" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
-                </Grid>
-                <Grid Margin="3">
-                    <TextBlock Text="放电最大幅值" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                    <Label Name="txtMaxPd" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
-                </Grid>
-        </StackPanel>
+                <d3:LineGraph Name="lineGraph2"   DataContext="{Binding}" FlowDirection="LeftToRight" >
+                    <d3:LineGraph.Description>
+                        <d3:PenDescription DescriptionString="局放"></d3:PenDescription>
+                    </d3:LineGraph.Description>
+                </d3:LineGraph>
+                <d3:ChartPlotter.VerticalAxis>
+                    <d3:VerticalAxis Name="pdVerticalAxis" SizeChanged="PdAxis_SizeChanged"/>
+                </d3:ChartPlotter.VerticalAxis>
+            </d3:ChartPlotter>
+            <ListBox Grid.Column="1"  Name="lbPeriod" Grid.RowSpan="2" BorderThickness="1" />
         </Grid>
+
+        <!--信息-->
+        <StackPanel Grid.Column="2">
+            <TextBlock Text="属性" Background="Gray" FontSize="14" Padding="3" Foreground="White"></TextBlock>
+            <Grid Margin="3">
+                <TextBlock Text="相序" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                <Label Name="txtPhase" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1"  Content=""  HorizontalAlignment="Right"></Label>
+            </Grid>
+            <Grid Margin="3">
+                <TextBlock Text="高压幅值" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                <Label Name="txtHvVol" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+            </Grid>
+            <Grid Margin="3">
+                <TextBlock Text="振荡频率" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                <Label Name="txtFre" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+            </Grid>
+            <Grid Margin="3">
+                <TextBlock Text="电缆电容" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                <Label Name="txtCap" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+            </Grid>
+            <Grid Margin="3">
+                <TextBlock Text="{Binding MaxDischarge,Source={StaticResource params}}" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                <Label Name="txtMaxPd" Width="100" Foreground="White" HorizontalContentAlignment="Center" FontSize="16" Background="DimGray" Padding="3,1,3,1" Content="" HorizontalAlignment="Right"></Label>
+            </Grid>
+        </StackPanel>
+    </Grid>
 </Page>
