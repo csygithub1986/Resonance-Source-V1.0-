@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="Styles/BlueSkin.xaml" />
+                <ResourceDictionary Source="Styles/BaseWindowStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="DescriptionHeaderStyle"
