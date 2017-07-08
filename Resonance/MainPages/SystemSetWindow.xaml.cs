@@ -30,6 +30,16 @@ namespace Resonance
             VoltageList = new ObservableCollection<string>(Settings.Default.VoltageList.Cast<string>().ToArray());
             //扫频窗口
             ckboxShowSweepWindow.IsChecked = Settings.Default.EnableSweepWindow;
+            //局放单位
+            int unit = Settings.Default.DischargeUnit;
+            if (unit == 0)
+            {
+                rbUnitMV.IsChecked = true;
+            }
+            else
+            {
+                rbUnitPC.IsChecked = true;
+            }
         }
 
         #region 加压等级
@@ -92,6 +102,8 @@ namespace Resonance
             vlist.AddRange(VoltageList.ToArray());
             //扫频窗口
             Settings.Default.EnableSweepWindow = (bool)ckboxShowSweepWindow.IsChecked;
+            //局放单位
+            Settings.Default.DischargeUnit = rbUnitMV.IsChecked == true ? 0 : 1;
 
             Settings.Default.Save();
             this.Close();

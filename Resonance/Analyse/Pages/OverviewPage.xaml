@@ -7,6 +7,9 @@
       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1132" Initialized="Page_Initialized"
       Title="OverviewPage" >
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}"/>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />

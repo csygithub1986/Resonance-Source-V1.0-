@@ -6,7 +6,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" d:DesignHeight="720" d:DesignWidth="1152"
 	Title="WholePage" Unloaded="Page_Unloaded">
-
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource AccentedSquareButtonStyle}"/>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

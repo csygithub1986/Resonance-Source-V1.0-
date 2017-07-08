@@ -34,6 +34,7 @@
             <Style TargetType="{x:Type TextBox }">
                 <Setter Property="FontFamily" Value="Microsoft YaHei"/>
             </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
