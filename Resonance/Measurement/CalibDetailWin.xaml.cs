@@ -141,6 +141,7 @@ namespace Resonance
             cbScale.SelectedIndex = 2;
 
 
+
             cbDischarge.Items.Add("50 pC");
             cbDischarge.Items.Add("100 pC");
             cbDischarge.Items.Add("500 pC");
