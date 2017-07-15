@@ -41,6 +41,6 @@
         <Image Height="40" HorizontalAlignment="Left" Margin="258,203,0,0" Name="imageDone1" Stretch="Fill" VerticalAlignment="Top" Width="40" Source="/Resonance;component/Images/done.png" Visibility="Hidden" />
         <Image Height="40" HorizontalAlignment="Left" Margin="258,427,0,0" Name="imageDone3" Source="/Resonance;component/Images/done.png" Stretch="Fill" VerticalAlignment="Top" Width="40" Visibility="Hidden" />
         <Image Height="40" HorizontalAlignment="Left" Margin="258,314,0,0" Name="imageDone2" Source="/Resonance;component/Images/done.png" Stretch="Fill" VerticalAlignment="Top" Width="40" Visibility="Hidden" />-->
-        <Image Height="120" HorizontalAlignment="Right" Margin="0,30,36,0" Name="image1" Stretch="Uniform" VerticalAlignment="Top" Source="/Resonance;component/Analyse/Images/XJTU.png" />
+        <!--<Image Height="120" HorizontalAlignment="Right" Margin="0,30,36,0" Name="image1" Stretch="Uniform" VerticalAlignment="Top" Source="/Resonance;component/Analyse/Images/XJTU.png" />-->
     </Grid>
 </Page>

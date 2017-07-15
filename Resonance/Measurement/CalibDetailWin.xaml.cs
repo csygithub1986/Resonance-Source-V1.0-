@@ -119,7 +119,24 @@ namespace Resonance
                         break;
                     }
                 }
-                cbScale.SelectedIndex = cdata.RangeIndex;
+                if (cdata.RangeIndex==0)
+                {
+                    cbScale.SelectedIndex = 1;
+                }
+                else if (cdata.RangeIndex == 1)
+                {
+                    cbScale.SelectedIndex = 2;
+                }
+                else if (cdata.RangeIndex == 2)
+                {
+                    cbScale.SelectedIndex = 3;
+                }
+                else if (cdata.RangeIndex == 3)
+                {
+                    cbScale.SelectedIndex = 5;
+                }
+
+                //cbScale.SelectedIndex = cdata.RangeIndex;
                 btnCancel.IsEnabled = false;
                 gridControl.IsEnabled = false;
                 ShowSavedCali();
@@ -133,10 +150,21 @@ namespace Resonance
         /// </summary>
         private void InitComboBox()
         {
+            //对应100mv
+            cbScale.Items.Add("50 mV");//虚拟
             cbScale.Items.Add("100 mV");
+
+            //对应200mv
             cbScale.Items.Add("200 mV");
+
+            //对应1v
+            cbScale.Items.Add("500 mV");//虚拟
+
+            //对应10v
             cbScale.Items.Add("1 V");
+            cbScale.Items.Add("5 V");//虚拟
             cbScale.Items.Add("10 V");
+
             cbScale.SelectionChanged += cbScale_SelectionChanged;
             cbScale.SelectedIndex = 2;
 
@@ -148,8 +176,8 @@ namespace Resonance
             cbDischarge.Items.Add("5 nC");
             cbDischarge.Items.Add("10 nC");
             cbDischarge.Items.Add("20 nC");
-            cbDischarge.Items.Add("50 nC");
-            cbDischarge.Items.Add("100 nC");
+            //cbDischarge.Items.Add("50 nC");
+            //cbDischarge.Items.Add("100 nC");
             cbDischarge.SelectionChanged += cbDischarge_SelectionChanged;
             cbDischarge.SelectedIndex = 2;
 
@@ -167,7 +195,23 @@ namespace Resonance
         /// </summary>
         void cbScale_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            rangeIndex = cbScale.SelectedIndex;
+            if (cbScale.SelectedIndex == 0 || cbScale.SelectedIndex == 1)
+            {
+                rangeIndex = 0;
+            }
+            else if (cbScale.SelectedIndex == 2)
+            {
+                rangeIndex = 1;
+            }
+            else if (cbScale.SelectedIndex == 3)
+            {
+                rangeIndex = 2;
+            }
+            else if (cbScale.SelectedIndex == 4 || cbScale.SelectedIndex == 5 || cbScale.SelectedIndex == 6)
+            {
+                rangeIndex = 3;
+            }
+            //rangeIndex = cbScale.SelectedIndex;
             new Thread(() =>
             {
                 byte[] temp = new byte[4];
