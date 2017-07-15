@@ -1,0 +1,15 @@
+﻿<Window x:Class="数据格式转换.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:数据格式转换" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="数据转换" Height="350" Width="525">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="76,80,0,0" FontSize="16" TextWrapping="Wrap" Text="转换后的txt文件保存在原目录，文件名与原文件相同" VerticalAlignment="Top"/>
+        <Button Click="btnStart_Click" Content="选择数据文件" HorizontalAlignment="Left" FontSize="16" Margin="76,128,0,0" VerticalAlignment="Top" Width="360" Height="47"/>
+        <TextBlock HorizontalAlignment="Left" Margin="76,55,0,0" FontSize="16" TextWrapping="Wrap" Text="选择.cal（标定文件）或.zdb（高压和局放文件）" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

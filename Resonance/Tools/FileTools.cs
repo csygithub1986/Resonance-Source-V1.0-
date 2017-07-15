@@ -11,7 +11,7 @@ namespace Tools
     /// <summary>
     /// 负责打开文件对话框
     /// </summary>
-    class FileTools
+    public class FileTools
     {
         /// <summary>
         /// 读属性文件
