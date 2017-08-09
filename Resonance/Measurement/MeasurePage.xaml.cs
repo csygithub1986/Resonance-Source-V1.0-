@@ -98,6 +98,7 @@ namespace Resonance
         public MeasurePage(int phase)
         {
             _phase = phase;
+            Params.mVTopC[phase] = MeasureState.CalibInfos[phase].PcPerMv;
             InitializeComponent();
             Init();
             AddFiles();
